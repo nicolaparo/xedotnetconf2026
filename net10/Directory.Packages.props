@@ -1,0 +1,16 @@
+<Project>
+  <!--
+    Central package management for the .NET 10 / EF Core 10 side of the demo.
+    Scenario files use "#:package Name" WITHOUT a version; the version comes from here.
+    TODO: bump EfCoreVersion to the latest 10.0.x patch before the talk.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NuGetAudit>false</NuGetAudit>
+    <EfCoreVersion>10.0.14</EfCoreVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
+  </ItemGroup>
+</Project>
