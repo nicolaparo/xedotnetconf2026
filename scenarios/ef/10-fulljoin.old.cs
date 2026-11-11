@@ -11,16 +11,18 @@ Console.WriteLine($"EF Core {typeof(DbContext).Assembly.GetCustomAttribute<Assem
 
 using var db = new ShopContext();
 
-var left =
-    from c in db.Customers
-    join o in db.Orders on c.Id equals o.CustomerId into orders
-    from o in orders.DefaultIfEmpty()
-    select new { CustomerId = (int?)c.Id, CustomerName = (string?)c.Name, OrderId = o == null ? (int?)null : o.Id };
+var left = db.Customers
+    .GroupJoin(db.Orders, c => c.Id, o => o.CustomerId, (c, orders) => new { c, orders })
+    .SelectMany(x => x.orders.DefaultIfEmpty(), (x, o) => new
+    {
+        CustomerId = (int?)x.c.Id,
+        CustomerName = (string?)x.c.Name,
+        OrderId = o == null ? (int?)null : o.Id
+    });
 
-var rightOnly =
-    from o in db.Orders
-    where !db.Customers.Any(c => c.Id == o.CustomerId)
-    select new { CustomerId = (int?)null, CustomerName = (string?)null, OrderId = (int?)o.Id };
+var rightOnly = db.Orders
+    .Where(o => !db.Customers.Any(c => c.Id == o.CustomerId))
+    .Select(o => new { CustomerId = (int?)null, CustomerName = (string?)null, OrderId = (int?)o.Id });
 
 Console.WriteLine(left.Union(rightOnly).ToQueryString());
 
