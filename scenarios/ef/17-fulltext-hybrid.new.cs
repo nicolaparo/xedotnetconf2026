@@ -6,7 +6,7 @@
 // (full-text + vector) merged with FullJoin and a Reciprocal Rank Fusion score. EF Core 11 only.
 // Needs SQL Server 2025 with the full-text component and an Ollama server with an embedding model:
 //   XE_SQL    connection string  (default: the Docker container "xe-sql2025" on localhost,14335)
-//   XE_OLLAMA Ollama base URL    (default: http://macmini:11434)
+//   XE_OLLAMA Ollama base URL    (default: http://localhost:11434)
 
 using System.Net.Http.Json;
 using System.Reflection;
@@ -23,7 +23,7 @@ string[] titles =
     "Allenamento per la maratona", "Correre la mattina presto", "Il pappagallo che parla",
 ];
 
-using var http = new HttpClient { BaseAddress = new Uri(Environment.GetEnvironmentVariable("XE_OLLAMA") ?? "http://macmini:11434") };
+using var http = new HttpClient { BaseAddress = new Uri(Environment.GetEnvironmentVariable("XE_OLLAMA") ?? "http://localhost:11434") };
 async Task<SqlVector<float>> Embed(string text)
 {
     var r = await http.PostAsJsonAsync("/api/embed", new { model = "qwen3-embedding:0.6b", input = text });
