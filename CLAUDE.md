@@ -20,7 +20,7 @@ Scenarios 01 to 17 were run on both SDKs (EF Core 10.0.14 and 11.0.0-rc.3). Find
 
 Scenarios 16 and 17 need a SQL Server 2025 container with full-text installed (`xe-sql2025` on port 14335, image
 `mcr.microsoft.com/mssql/server:2025-latest`, then `apt-get install mssql-server-fts` as root from the Microsoft mssql-server-2025
-repo and restart) and Ollama with `qwen3-embedding:0.6b` (`macmini:11434`). Override with XE_SQL and XE_OLLAMA.
+repo and restart) and Ollama with `qwen3-embedding:0.6b` (`localhost:11434`). Override with XE_SQL and XE_OLLAMA.
 
 ## The slide deck (outside this repo)
 
